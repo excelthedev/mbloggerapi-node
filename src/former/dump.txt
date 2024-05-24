@@ -1,0 +1,188 @@
+import express, { Express, Request, Response, NextFunction } from 'express';
+import dotenv from 'dotenv';
+import http from 'http';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import compression from 'compression';
+import cors from 'cors';
+
+dotenv.config();
+
+const app: Express = express();
+const port = process.env.PORT || 8000;
+
+// using the middleware, this is a middle ware
+app.use(express.json());
+
+const courses = [
+  {
+    id: 1,
+    name: 'courses_1',
+  },
+  {
+    id: 2,
+    name: 'courses_2',
+  },
+  {
+    id: 3,
+    name: 'courses_3',
+  },
+];
+
+app.get('/', (req: Request, res: Response, next: NextFunction) => {
+  res.send('Express + Typescript Server, Hello world!');
+});
+
+app.get('/api/courses', (req: Request, res: Response) => {
+  res.status(200).send(courses);
+});
+
+//impleneting route parameters, api/courese/1 we use :id or :anything, all of this goes to the req parameters
+// we can also get query string paramters which are done by a ?, they are used to provide additional data for BE services, anything that is optional
+app.get('/api/courses/:id', (req: Request, res: Response) => {
+  const courseId = parseInt(req.params.id, 10); // Convert the id from string to number
+  const course = courses.find((c) => c.id === courseId); // Compare the course id with the parsed id
+
+  if (!course) return res.status(404).send('Course with given id was not found');
+  res.send(course);
+});
+
+app.post('/api/courses', (req: Request, res: Response) => {
+  // security practice, always validate what the user sends you
+  if (!req.body.name || req.body.name.length < 3) {
+    return res.status(400).send('Your input doesnt meet the requirements ');
+  }
+  const course = {
+    id: courses.length + 1,
+    name: req.body.name,
+  };
+
+  courses.push(course);
+  // by convention when the server creates a POST or new resource, we send it back in the res so user knows it's been, created
+  res.send(course);
+});
+
+app.put('/api/courses/:id', (req: Request, res: Response) => {
+  if (!req.params.id || !req.body.name) {
+    res.status(400).send('Request body or Params Nothing was passed');
+  }
+  //look for the course,
+  const specifiedCourse: any = courses.find((c) => c.id === parseInt(req.params.id, 10));
+  //if not existing, return 404
+  if (!specifiedCourse) {
+    res.status(400).send("Couldn't find the specified course");
+  }
+  //validate
+  // specifiedCourse.name = req.body.name;
+  specifiedCourse.name = req.body.name;
+  res.send(specifiedCourse);
+  //if invalid, return 400 - bad request
+  //update course
+  //return the updated course
+});
+
+app.delete('/api/courses/:id', (req: Request, res: Response) => {
+  const course: any = courses.find((c) => c.id === parseInt(req.params.id, 10));
+
+  const index = courses.indexOf(course);
+  courses.splice(index, 1);
+
+  res.send(courses);
+});
+
+app.listen(port, () => {
+  console.log(`Server is running now at http://localhost:${port}`);
+});
+
+
+
+
+
+
+
+
+
+
+// using the middleware, this is a middle ware
+app.use(express.json());
+
+const courses = [
+  {
+    id: 1,
+    name: 'courses_1',
+  },
+  {
+    id: 2,
+    name: 'courses_2',
+  },
+  {
+    id: 3,
+    name: 'courses_3',
+  },
+];
+
+app.get('/', (req: Request, res: Response, next: NextFunction) => {
+  res.send('Express + Typescript Server, Hello world!');
+});
+
+app.get('/api/courses', (req: Request, res: Response) => {
+  res.status(200).send(courses);
+});
+
+//impleneting route parameters, api/courese/1 we use :id or :anything, all of this goes to the req parameters
+// we can also get query string paramters which are done by a ?, they are used to provide additional data for BE services, anything that is optional
+app.get('/api/courses/:id', (req: Request, res: Response) => {
+  const courseId = parseInt(req.params.id, 10); // Convert the id from string to number
+  const course = courses.find((c) => c.id === courseId); // Compare the course id with the parsed id
+
+  if (!course) return res.status(404).send('Course with given id was not found');
+  res.send(course);
+});
+
+app.post('/api/courses', (req: Request, res: Response) => {
+  // security practice, always validate what the user sends you
+  if (!req.body.name || req.body.name.length < 3) {
+    return res.status(400).send('Your input doesnt meet the requirements ');
+  }
+  const course = {
+    id: courses.length + 1,
+    name: req.body.name,
+  };
+
+  courses.push(course);
+  // by convention when the server creates a POST or new resource, we send it back in the res so user knows it's been, created
+  res.send(course);
+});
+
+app.put('/api/courses/:id', (req: Request, res: Response) => {
+  if (!req.params.id || !req.body.name) {
+    res.status(400).send('Request body or Params Nothing was passed');
+  }
+  //look for the course,
+  const specifiedCourse: any = courses.find((c) => c.id === parseInt(req.params.id, 10));
+  //if not existing, return 404
+  if (!specifiedCourse) {
+    res.status(400).send("Couldn't find the specified course");
+  }
+  //validate
+  // specifiedCourse.name = req.body.name;
+  specifiedCourse.name = req.body.name;
+  res.send(specifiedCourse);
+  //if invalid, return 400 - bad request
+  //update course
+  //return the updated course
+});
+
+app.delete('/api/courses/:id', (req: Request, res: Response) => {
+  const course: any = courses.find((c) => c.id === parseInt(req.params.id, 10));
+
+  const index = courses.indexOf(course);
+  courses.splice(index, 1);
+
+  res.send(courses);
+});
+
+app.listen(port, () => {
+  console.log(`Server is running now at http://localhost:${port}`);
+});
+
