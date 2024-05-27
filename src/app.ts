@@ -13,7 +13,7 @@ import { testRoute } from './controllers/userController';
 
 dotenv.config();
 
-console.log(process.env);
+// console.log(process.env);
 
 const app: Express = express();
 app.use(

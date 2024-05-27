@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon src/app.ts"
+    "start": "nodemon src/app.ts",
+    "serve": "node dist/app.js",
+    "start:prod": "npm run serve"
   },
   "keywords": [],
   "author": "",
