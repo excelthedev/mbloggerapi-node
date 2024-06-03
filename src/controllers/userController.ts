@@ -111,6 +111,7 @@ export const loginUser = async (req: Request, res: Response) => {
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
     if (token) {
+      // console.log('token on log in >>>>', token);
       return res.status(200).json({ message: 'Logged in Succesfully', token, user });
     }
   } catch (error: any) {
@@ -151,5 +152,5 @@ export const forgotPassword = async (req: Request, res: Response) => {
 };
 
 export const testRoute = (req: Request, res: Response) => {
-  return res.status(200).json({ message: 'Received' });
+  return res.status(200).json({ message: 'API Working' });
 };

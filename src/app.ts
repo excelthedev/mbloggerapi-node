@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 import { error } from 'console';
 import { Err } from 'joi';
 import registerRoute from './routes/userRoute';
+import blogRoute from './routes/blogRoute';
 import { testRoute } from './controllers/userController';
 
 dotenv.config();
@@ -26,7 +27,7 @@ app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use('/api', registerRoute);
-app.use('/api/blogs', registerRoute);
+app.use('/api/blogs', blogRoute);
 
 const port = process.env.PORT || 8000;
 const MONGO_URI: string = process.env.MONGO_URI || '';
