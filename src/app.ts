@@ -14,8 +14,6 @@ import { testRoute } from './controllers/userController';
 
 dotenv.config();
 
-// console.log(process.env);
-
 const app: Express = express();
 app.use(
   cors({
@@ -48,10 +46,6 @@ mongoose.connection.on('error', (error: Error) => {
 mongoose.connection.on('disconnected', () => {
   console.log('Mongoose disconnected from your DB');
 });
-
-// app.get('/', (req, res) => {
-//   res.send('Express + Typescript is up and running on the server!!');
-// });
 
 server.listen(port, () => {
   console.log(`Server is running now at http://localhost:${port}`);
